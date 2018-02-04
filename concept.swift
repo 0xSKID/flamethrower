@@ -81,4 +81,3 @@ extension Responsive {
 
 let like = Liked(tinderId: "123")
 let replied = Matched(like, opener: SentMessage.opener)
-

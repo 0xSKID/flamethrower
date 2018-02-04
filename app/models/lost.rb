@@ -1,0 +1,2 @@
+class Lost < Person
+end

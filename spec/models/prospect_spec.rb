@@ -1,5 +1,17 @@
 require 'rails_helper'
 RSpec.describe Prospect do
+
+  let(:account) do
+    Account.create
+  end
+
+  let(:prospect) do
+    Prospect.build_from(raw_data).tap do |prospect|
+      prospect.account = account
+      prospect.save
+    end
+  end
+
   let(:raw_data) do
     OpenStruct.new(name: 'Jessica',
                    photos: [
@@ -12,21 +24,17 @@ RSpec.describe Prospect do
 
   describe 'self.build_from(raw_data)' do
     it 'creates a raw data model' do
-      prospect = Prospect.build_from(raw_data)
-      byebug
-      expect(prospect.raw_data.name).to eq(raw_data.name)
-      expect(prospect.raw_data.photos).to eq(raw_data.photos)
-      expect(prospect.raw_data.tinder_id).to eq(raw_data.tinder_id)
+      expect(prospect.raw_data.data.name).to eq(raw_data.name)
+      expect(prospect.raw_data.data.photos).to eq(raw_data.photos)
+      expect(prospect.raw_data.data.tinder_id).to eq(raw_data.tinder_id)
     end
 
     it 'combines photo urls into one string' do
-      Prospect.build_from(raw_data)
-      expect(Prospect.last.photos).to eq('url url url')
+      expect(prospect.photos).to eq('url url url')
     end
 
     it 'it maps _id to tinder_id' do
-      Prospect.build_from(raw_data)
-      expect(Prospect.last.photos).to eq('537')
+      expect(prospect.tinder_id).to eq('537')
     end
   end
 end

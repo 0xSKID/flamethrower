@@ -1,0 +1,2 @@
+class SentMessage < Message
+end

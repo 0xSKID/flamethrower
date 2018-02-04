@@ -1,0 +1,2 @@
+class Dated < Person
+end

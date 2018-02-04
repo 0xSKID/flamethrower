@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180203021739) do
+ActiveRecord::Schema.define(version: 20180204184313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,24 +19,20 @@ ActiveRecord::Schema.define(version: 20180203021739) do
     t.string "facebook_email"
     t.string "facebook_oauth_token"
     t.string "tinder_api_token"
+    t.string "tinder_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "prospects", force: :cascade do |t|
+  create_table "people", force: :cascade do |t|
     t.string "tinder_id"
     t.string "name"
     t.string "photos"
-    t.string "phone_number"
-    t.boolean "match", default: false
-    t.boolean "messaged_back", default: false
-    t.boolean "date_scheduled", default: false
-    t.boolean "liked", default: false
-    t.boolean "passed", default: false
+    t.string "type"
     t.integer "account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_prospects_on_account_id"
+    t.index ["account_id"], name: "index_people_on_account_id"
   end
 
   create_table "raw_data", force: :cascade do |t|
@@ -53,5 +49,4 @@ ActiveRecord::Schema.define(version: 20180203021739) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_updates_on_account_id"
   end
-
 end

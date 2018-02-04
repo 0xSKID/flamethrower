@@ -1,6 +1,4 @@
-class Prospect < ApplicationRecord
-  has_one :raw_data, as: :owner
-  belongs_to :account
+class Prospect < Person
 
   def self.build_from(raw_data)
     new.tap do |prospect|
