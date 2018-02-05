@@ -10,6 +10,10 @@ module Tinder
         facebook_id: facebook_user_id }).body)['token']
     end
 
+    def meta
+      parse(connection.get('/meta').body)
+    end
+
     def recommendations
       parse(connection.post('user/recs').body)
     end

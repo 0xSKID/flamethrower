@@ -8,7 +8,8 @@ class Message < ApplicationRecord
       message.tinder_id = raw_data['_id']
       message.to_tinder_id = raw_data['to']
       message.from_tinder_id = raw_data['from']
-      message.tinder_timestamp = raw_data['sometimestamp']
+      message.text = raw_data['message']
+      message.tinder_timestamp = Date.parse(raw_data['created_date'])
     end
   end
 

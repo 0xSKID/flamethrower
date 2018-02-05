@@ -14,7 +14,9 @@ class ProcessUpdatesWorker
   private
 
   def process(match)
-    person = Person.includes(:messages).find_by(tinder_id: match.['_id'])
+    return if match['person'].nil? # sometimes this value is nil in tinders response?
+
+    person = Person.includes(:messages).find_by(tinder_id: match['person']['_id'])
     existing_message_ids = person.messages.map(&:tinder_id)
 
     match['messages'].each do |message|
