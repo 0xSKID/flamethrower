@@ -33,7 +33,7 @@ module Tinder
     private
 
     def parse(json)
-      JSON.parse(json, object_class: OpenStruct)
+      JSON.parse(json)
     end
 
     def connection

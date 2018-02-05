@@ -13,20 +13,22 @@ RSpec.describe Prospect do
   end
 
   let(:raw_data) do
-    OpenStruct.new(name: 'Jessica',
-                   photos: [
-                     OpenStruct.new(url: 'url'),
-                     OpenStruct.new(url: 'url'),
-                     OpenStruct.new(url: 'url')
-                   ],
-                   _id: '537')
+    {
+      'name' => 'Jessica',
+      'photos' => [
+        { 'url' => 'url'},
+        { 'url' => 'url'},
+        { 'url' => 'url'}
+      ],
+      '_id' => '537'
+    }
   end
 
   describe 'self.build_from(raw_data)' do
     it 'creates a raw data model' do
-      expect(prospect.raw_data.data.name).to eq(raw_data.name)
-      expect(prospect.raw_data.data.photos).to eq(raw_data.photos)
-      expect(prospect.raw_data.data.tinder_id).to eq(raw_data.tinder_id)
+      expect(prospect.raw_data.data['name']).to eq(raw_data['name'])
+      expect(prospect.raw_data.data['photos']).to eq(raw_data['photos'])
+      expect(prospect.raw_data.data['tinder_id']).to eq(raw_data['tinder_id'])
     end
 
     it 'combines photo urls into one string' do
