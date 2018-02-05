@@ -2,7 +2,8 @@ class UpdatesKickoffWorker
   include Sidekiq::Worker
 
   def self.cron_on
-    '0 * * * *' # every hour
+    # At minute 0 past every hour from 8 through 23
+    '0 8-23/1 * * *'
   end
 
   def perform

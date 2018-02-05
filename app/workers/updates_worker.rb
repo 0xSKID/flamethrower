@@ -13,7 +13,7 @@ class UpdatesWorker
   end
 
   def update_data
-    last_activity_date = account.updates.last.pluck(:created_at).string_format
+    last_activity_date = account.updates.last.pluck(:created_at).iso8601
     client = Tinder::Client.new(account.tinder_api_token)
     client.updates(last_activity_date)
   end

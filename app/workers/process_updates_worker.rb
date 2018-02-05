@@ -36,4 +36,3 @@ class ProcessUpdatesWorker
     end
   end
 end
-
