@@ -6,34 +6,32 @@ class ProcessUpdatesWorker
   def perform(update_id)
     @update = Update.find(update_id)
 
-    update.matches.each do |match|
-      classify_and_process(match)
-    end
-  end
-
-  def classify_and_process(match)
-    person = Person.find_by(tinder_id: match.['_id'])
-
-    messages = match['messages'].map do |message|
-      message = Message.build_from(message).assign_attributes(person: person)
-      message.type = message.derive_type
-      message.save!
-      person.type = person.derive_type
-      process_person(person) if person.type_changed?
-      person.save!
+    update['matches'].each do |match|
+      process(match)
     end
   end
 
   private
 
-  def process_person(person)
-    if person.type == 'Match'
-      person.send_opener
-    else if person.type == 'Replied'
-      person.send_followup
+  def process(match)
+    person = Person.includes(:messages).find_by(tinder_id: match.['_id'])
+    existing_message_ids = person.messages.map(&:tinder_id)
+
+    match['messages'].each do |message|
+      next if existing_message_ids.include?(message['_id'])
+      message = Message.build_from(message)
+      message.person = person
+      message.set_type
+      message.save
+    end
+
+    person.set_type
+    kickoff_perform_action = person.type_changed?
+    person.save
+
+    if kickoff_perform_action
+      TypeActionWorker.perform_async(person.id)
     end
   end
 end
-
-
 

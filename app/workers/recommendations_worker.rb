@@ -8,10 +8,9 @@ class RecommendationsWorker
 
     recommendations.each do |recommendation|
       next if tinder_ids.include?(recommendation['_id'])
-      prospect = Prospect.build_from(recommendation).tap do |prospect|
-        prospect.assign_attributes(account: account)
-        prospect.save
-      end
+      prospect = Prospect.build_from(recommendation)
+      prospect.account = account
+      prospect.save
       SwipeWorker.perform_async(prospect.id)
     end
   end

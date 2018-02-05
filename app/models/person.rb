@@ -6,41 +6,33 @@ class Person < ApplicationRecord
   has_many :received_messages
   has_many :updates
 
+  def set_type
+    return if immutable_types.include?(type)
 
-  def derive_type
-    if immutable_types.include?(type)
-      type
-    elsif messages.empty?
-      'Prospect'
+    if messages.empty?
+      self.type = 'Prospect'
     elsif messages.length == 1
-      'Match'
+      self.type = 'Match'
     elsif received_messages > 0 && sent_messages == 1
-      'Replied'
+      self.type = 'Replied'
     elsif sent_messages > 1
-      'Responsive'
-    else
-      'Person'
+      self.type = 'Responsive'
     end
   end
+
+  def perform_type_action; end
 
   def opener
     sent_messages.first
   end
 
   def replies
-    recieved_messages.where(created_at: open.created_at..followup.created_at)
+    recieved_messages
+      .where(created_at: open.created_at..followup.created_at)
   end
 
   def followup
     sent_messages.second
-  end
-
-  def opener_text
-    'You seem interesting if you want to chat, just say hi.'
-  end
-
-  def followup_text
-    'Tell me something about yourself.'
   end
 
   def conversation
@@ -48,6 +40,11 @@ class Person < ApplicationRecord
   end
 
   private
+
+  def send_message(message)
+    client = Tinder::Client.new(account.tinder_api_token)
+    client.message(tinder_id, message)
+  end
 
   def immutable_types
     ['Dated', 'Lost']
