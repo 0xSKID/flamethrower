@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180204184313) do
+ActiveRecord::Schema.define(version: 20180205002341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,16 @@ ActiveRecord::Schema.define(version: 20180204184313) do
     t.string "facebook_oauth_token"
     t.string "tinder_api_token"
     t.string "tinder_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "tinder_id"
+    t.string "to_tinder_id"
+    t.string "from_tinder_id"
+    t.string "type"
+    t.datetime "tinder_timestamp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -49,4 +59,5 @@ ActiveRecord::Schema.define(version: 20180204184313) do
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_updates_on_account_id"
   end
+
 end
