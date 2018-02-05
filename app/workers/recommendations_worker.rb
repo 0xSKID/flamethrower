@@ -7,7 +7,7 @@ class RecommendationsWorker
     @account = Account.find(account_id)
 
     recommendations.each do |recommendation|
-      next if tinder_ids.include?(recommendation._id)
+      next if tinder_ids.include?(recommendation['_id'])
       prospect = Prospect.build_from(recommendation).tap do |prospect|
         prospect.assign_attributes(account: account)
         prospect.save

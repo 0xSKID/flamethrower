@@ -6,6 +6,23 @@ class Person < ApplicationRecord
   has_many :received_messages
   has_many :updates
 
+
+  def derive_type
+    if immutable_types.include?(type)
+      type
+    elsif messages.empty?
+      'Prospect'
+    elsif messages.length == 1
+      'Match'
+    elsif received_messages > 0 && sent_messages == 1
+      'Replied'
+    elsif sent_messages > 1
+      'Responsive'
+    else
+      'Person'
+    end
+  end
+
   def opener
     sent_messages.first
   end
@@ -28,5 +45,11 @@ class Person < ApplicationRecord
 
   def conversation
     messages.ordered_by(:created_at).map(&:text)
+  end
+
+  private
+
+  def immutable_types
+    ['Dated', 'Lost']
   end
 end
