@@ -15,7 +15,7 @@ RSpec.describe 'RecommendationsWorker' do
 
     context 'when recommendation timeout is reached' do
       let(:recommendations) do
-        OpenStruct.new(message: 'recs timeout')
+        { 'message' => 'recs timeout' }
       end
 
       it 'does not create any prospects' do
@@ -26,11 +26,13 @@ RSpec.describe 'RecommendationsWorker' do
 
     context 'when everything is all nice and rosey' do
       let(:recommendations) do
-        OpenStruct.new(results: [
-          OpenStruct.new(name: 'Jessica',
-                         photos: [OpenStruct.new(url: 'yapics')],
-                         _id: '10485104')
-        ])
+        { 'results' => [
+            { 'name' => 'Jessica',
+              'photos' => [{ 'url' => 'yapics' }],
+              '_id' => '10485104'
+            }
+          ]
+        }
       end
 
       it 'creates some prospects' do
@@ -45,11 +47,15 @@ RSpec.describe 'RecommendationsWorker' do
       end
 
       let(:recommendations) do
-        OpenStruct.new(results: [
-          OpenStruct.new(name: 'Jessica',
-                         photos: [OpenStruct.new(url: 'yapics')],
-                         _id: '3')
-        ])
+        {
+          'results' => [
+            {
+              'name' => 'Jessica',
+              'photos' => [{ 'url' => 'yapics' }],
+              '_id' => '3'
+            }
+          ]
+        }
       end
 
       it 'does not create a new record' do

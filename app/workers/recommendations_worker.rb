@@ -19,7 +19,7 @@ class RecommendationsWorker
 
   def recommendations
     response = Tinder::Client.new(account.tinder_api_token).recommendations
-    response.results || []
+    response['results'] || []
   end
 
   def tinder_ids
