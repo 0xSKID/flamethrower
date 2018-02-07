@@ -1,9 +1,32 @@
 class SwipeWorker
   include Sidekiq::Worker
 
-  def perform(prospect_id)
-    #prospect = Prospect.find(prospect_id)
-    # hit AWS Lambda with photo set
-    # likes/pass based on confidence
+  attr_reader :person
+
+  def perform(person_id)
+    return # deadcode
+    @person = Person.find(person_id)
+
+    if confidence > threshold
+      set_type('Liked')
+    else
+      set_type('Passed')
+    end
+  end
+
+  private
+
+  def confidence
+    client.confidence(person)
+  end
+
+  def thershold
+    70
+  end
+
+  def set_type(type)
+    person.type = type
+    person.action
+    person.save!
   end
 end

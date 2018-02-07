@@ -1,6 +1,6 @@
 class Matched < Person
 
-  def perform_type_action
+  def action
     send_opener
   end
 
