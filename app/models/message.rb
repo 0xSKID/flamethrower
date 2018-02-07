@@ -2,6 +2,8 @@ class Message < ApplicationRecord
   has_one :raw_data, as: :owner
   belongs_to :person
 
+  before_create :set_type
+
   def self.build_from(raw_data)
     Message.new.tap do |message|
       message.build_raw_data(data: raw_data)
@@ -12,6 +14,8 @@ class Message < ApplicationRecord
       message.tinder_timestamp = Time.parse(raw_data['created_date'])
     end
   end
+
+  private
 
   def set_type
     if from_tinder_id == person.tinder_id

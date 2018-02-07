@@ -59,7 +59,6 @@ RSpec.describe Message do
       end
 
       it 'sets type to ReceivedMessage' do
-        message.set_type
         expect(message.type).to eq('ReceivedMessage')
       end
     end
@@ -70,7 +69,6 @@ RSpec.describe Message do
       end
 
       it 'sets type to SentMessage' do
-        message.set_type
         expect(message.type).to eq('SentMessage')
       end
     end
