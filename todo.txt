@@ -1,0 +1,11 @@
+=> Clean up Messages model and write unit tests, make type setting a callback since its fairly simple
+=> Clean up Person model and write unit tests, clean up and write unit tests for all its children as well
+=> Figure out some good names for every worker, make sure their execution paths are easy to folllow, integration tests
+=> Create controller/actions for instantiating an account
+=> Create controller/actions for swiping
+=> Tests for controllers and any model interfaces needed
+
+=> Review all the code created above, are there abstractions, service methods, concerns, or other things we can extract
+=> Things for this weekend
+  - React swipping front-end
+  - Deployment details
