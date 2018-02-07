@@ -2,8 +2,6 @@ class Person < ApplicationRecord
   belongs_to :account
   has_one :raw_data, as: :owner
   has_many :messages
-  has_many :sent_messages
-  has_many :received_messages
   has_many :updates
 
   def set_type
@@ -13,11 +11,19 @@ class Person < ApplicationRecord
       self.type = 'Prospect'
     elsif messages.length == 1
       self.type = 'Match'
-    elsif received_messages > 0 && sent_messages == 1
+    elsif received_messages.length > 0 && sent_messages.length == 1
       self.type = 'Replied'
-    elsif sent_messages > 1
+    elsif sent_messages.length > 1
       self.type = 'Responsive'
     end
+  end
+
+  def received_messages
+    messages.where(type: 'ReceivedMessage')
+  end
+
+  def sent_messages
+    messages.where(type: 'SentMessage')
   end
 
   def perform_type_action; end
