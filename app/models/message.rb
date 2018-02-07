@@ -14,11 +14,9 @@ class Message < ApplicationRecord
   end
 
   def set_type
-    if person.nil?
-      self.type = 'Message'
-    elsif message.from_tinder_id == person.tinder_id
+    if from_tinder_id == person.tinder_id
       self.type = 'ReceivedMessage'
-    else
+    elsif from_tinder_id == person.account.tinder_id
       self.type = 'SentMessage'
     end
   end

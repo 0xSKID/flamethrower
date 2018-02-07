@@ -28,10 +28,13 @@ ActiveRecord::Schema.define(version: 20180205002341) do
     t.string "tinder_id"
     t.string "to_tinder_id"
     t.string "from_tinder_id"
+    t.string "text"
     t.string "type"
     t.datetime "tinder_timestamp"
+    t.integer "person_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_messages_on_person_id"
   end
 
   create_table "people", force: :cascade do |t|
