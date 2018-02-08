@@ -12,10 +12,6 @@ class Person < ApplicationRecord
     messages.where(type: 'SentMessage')
   end
 
-  def conversation
-    messages.ordered_by(:created_at).map(&:text)
-  end
-
   private
 
   def send_message(message)

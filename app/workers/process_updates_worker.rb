@@ -14,7 +14,7 @@ class ProcessUpdatesWorker
   private
 
   def process(match)
-    return if match['person'].nil?
+    return if match_invalid(match)
 
     person = Person.includes(:messages).find_by(tinder_id: match['person']['_id'])
     existing_message_ids = person.messages.map(&:tinder_id)
@@ -25,6 +25,10 @@ class ProcessUpdatesWorker
       message.save
     end
 
-    CheckPersonsTypeWorker.perform_async(person.id)
+    UpdatePersonTypeWorker.perform_async(person.id)
+  end
+
+  def match_invalid(match)
+    match['person'].nil?
   end
 end

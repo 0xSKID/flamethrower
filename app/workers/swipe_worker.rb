@@ -4,7 +4,7 @@ class SwipeWorker
   attr_reader :person
 
   def perform(person_id)
-    return # deadcode
+    return # deadcode left for future documentation
     @person = Person.find(person_id)
 
     if confidence > threshold
