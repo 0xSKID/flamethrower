@@ -39,4 +39,24 @@ RSpec.describe Prospect do
       expect(prospect.tinder_id).to eq('537')
     end
   end
+
+  describe 'like!' do
+    let(:client) { instance_double(Tinder::Client) }
+    it 'sends a message to tinderclient to like with prospect id, changes prospect type to liked and saves' do
+      expect(Tinder::Client).to receive(:new).and_return(client)
+      expect(client).to receive(:like).with(prospect.tinder_id)
+      prospect.like!
+      expect(Person.find(prospect.id).class).to be(Liked)
+    end
+  end
+
+  describe 'pass!' do
+    let(:client) { instance_double(Tinder::Client) }
+    it 'sends a message to tinder client to pass with prospect id, changes prospect type to passed and saves' do
+      expect(Tinder::Client).to receive(:new).and_return(client)
+      expect(client).to receive(:pass).with(prospect.tinder_id)
+      prospect.pass!
+      expect(Person.find(prospect.id).class).to be(Passed)
+    end
+  end
 end
