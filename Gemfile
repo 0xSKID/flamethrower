@@ -11,6 +11,7 @@ gem 'sidekiq'
 gem 'sidekiq-cron', '~> 0.6.3'
 gem 'faraday'
 gem 'faraday_middleware'
+gem "factory_bot_rails", "~> 4.0"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
