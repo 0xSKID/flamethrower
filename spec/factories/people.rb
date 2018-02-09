@@ -10,4 +10,8 @@ FactoryBot.define do
   factory :replied do
     type 'Replied'
   end
+
+  factory :responsive do
+    type 'Responsive'
+  end
 end
