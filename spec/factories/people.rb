@@ -6,4 +6,8 @@ FactoryBot.define do
   factory :matched do
     type 'Matched'
   end
+
+  factory :replied do
+    type 'Replied'
+  end
 end

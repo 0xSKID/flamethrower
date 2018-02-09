@@ -12,10 +12,22 @@ class Replied < Person
   end
 
   def followed_up?
-    send_messages.length == 2
+    sent_messages.length == 2
   end
 
   def awaiting_reply
-    received_messages.last.create_at > person.sent_messages.last.created_at
+    if last_received_creation_date && last_sent_creation_date
+      last_received_creation_date > last_sent_creation_date
+    else
+     false
+    end
+  end
+
+  def last_received_creation_date
+    received_messages.last&.created_at
+  end
+
+  def last_sent_creation_date
+    sent_messages.last&.created_at
   end
 end
