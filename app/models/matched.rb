@@ -17,14 +17,26 @@ class Matched < Person
   end
 
   def awaiting_reply
-    received_messages.last.create_at > person.sent_messages.last.created_at
+    if last_received_creation_date && last_sent_creation_date
+      last_received_creation_date > last_sent_creation_date
+    else
+     false
+    end
+  end
+
+  def last_received_creation_date
+    received_messages.last&.created_at
+  end
+
+  def last_sent_creation_date
+    sent_messages.last&.created_at
   end
 
   def send_follow_up
-    send_message(followup_text)
+    send_message(follow_up_text)
   end
 
-  def followup_text
+  def follow_up_text
     'Tell me something about yourself.'
   end
 end
