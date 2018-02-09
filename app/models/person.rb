@@ -5,17 +5,20 @@ class Person < ApplicationRecord
   has_many :updates
 
   def received_messages
-    messages.where(type: 'ReceivedMessage')
+    ReceivedMessage.where(person: self)
   end
 
   def sent_messages
-    messages.where(type: 'SentMessage')
+    SentMessage.where(person: self)
   end
 
-  private
-
   def send_message(message)
-    client = Tinder::Client.new(account.tinder_api_token)
-    client.message(tinder_id, message)
+    tinder.message(tinder_id, message)
+  end
+
+  protected
+
+  def tinder
+    @client ||= Tinder::Client.new(account.tinder_api_token)
   end
 end

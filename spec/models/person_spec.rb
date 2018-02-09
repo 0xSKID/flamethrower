@@ -1,72 +1,47 @@
 require 'rails_helper'
 RSpec.describe Person do
-
   let!(:account) do
-    Account.create
+    create(:account, tinder_id: '1')
   end
 
-  describe 'set_type' do
-    context 'when a person is in a state that it is immutable' do
-      let!(:dated) do
-        Dated.create(account: account, messages: [Message.create])
-      end
-      let!(:lost) do
-        Lost.create(account: account, messages: [Message.create] )
-      end
+  let!(:person) do
+    create(:person, tinder_id: '2', account: account)
+  end
 
-      xit 'does not change its type when type is dated' do
-        dated.set_type
-        expect(dated.type).to eq('Dated')
-      end
+  context 'message queries' do
+    let!(:sent_message) do
+      create(:message,
+             from_tinder_id: account.tinder_id,
+             to_tinder_id: person.tinder_id,
+             person: person)
+    end
 
-      xit 'does not change its type when type is lost' do
-        lost.set_type
-        expect(lost.type).to eq('Lost')
+    let!(:received_message) do
+      create(:message,
+             from_tinder_id: person.tinder_id,
+             to_tinder_id: account.tinder_id,
+             person: person)
+    end
+
+    describe 'received_messages' do
+      it 'pulls messages where type is ReceivedMessage' do
+        expect(person.received_messages.first.id).to eq(received_message.id)
       end
     end
 
-    context 'when a person doesn\'t have any messages' do
-      let!(:person) do
-        Person.create(account: account)
-      end
-
-      xit 'changes its type to Prospect' do
-        person.set_type
-        expect(person.type).to eq('Prospect')
+    describe 'sent_messages' do
+      it 'pulls messages where type is SentMessage' do
+        expect(person.sent_messages.first.id).to eq(sent_message.id)
       end
     end
+  end
 
-    context 'when a person has one Message' do
-      let!(:person) do
-        Person.create(account: account, messages: [Message.create])
-      end
-
-      xit 'changes its type to Match' do
-        person.set_type
-        expect(person.type).to eq('Match')
-      end
-    end
-
-    context 'when a person has more than one received message and one sent message' do
-      let!(:person) do
-        Person.create(account: account, messages: [ReceivedMessage.create, SentMessage.create])
-      end
-
-      xit 'changes its type to Replied' do
-        person.set_type
-        expect(person.type).to eq('Replied')
-      end
-    end
-
-    context 'when a person has more than one sent message' do
-      let!(:person) do
-        Person.create(account: account, messages: [ReceivedMessage.create, SentMessage.create, SentMessage.create])
-      end
-
-      xit 'changes its type to Responsive' do
-        person.set_type
-        expect(person.type).to eq('Responsive')
-      end
+  describe 'send_message' do
+    let(:client) { instance_double(Tinder::Client) }
+    it 'sends a message to tinder client with tinder_id and message text' do
+      expect(Tinder::Client).to receive(:new).and_return(client)
+      expect(client).to receive(:message).with(person.tinder_id, 'message')
+      person.send_message('message')
     end
   end
 end

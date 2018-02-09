@@ -20,10 +20,4 @@ class Prospect < Person
     becomes!(Passed)
     save
   end
-
-  private
-
-  def tinder
-    @tinder_client ||= Tinder::Client.new(account.tinder_api_token)
-  end
 end
