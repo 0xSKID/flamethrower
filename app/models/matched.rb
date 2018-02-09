@@ -1,16 +1,30 @@
 class Matched < Person
 
-  def action
-    send_opener
+  def advance_stage
+    return unless advanceable
+    send_follow_up
+    becomes!(Replied)
   end
 
   private
 
-  def send_opener
-    send_message(opener_text)
+  def advanceable
+    opened? && awaiting_reply
   end
 
-  def opener_text
-    'You seem interesting if you want to chat, just say hi.'
+  def opened?
+    sent_messages.length == 1
+  end
+
+  def awaiting_reply
+    received_messages.last.create_at > person.sent_messages.last.created_at
+  end
+
+  def send_follow_up
+    send_message(followup_text)
+  end
+
+  def followup_text
+    'Tell me something about yourself.'
   end
 end

@@ -8,4 +8,22 @@ class Prospect < Person
       prospect.tinder_id = raw_data['_id']
     end
   end
+
+  def like!
+    tinder.like(tinder_id)
+    becomes!(Liked)
+    save
+  end
+
+  def pass!
+    tinder.pass(tinder_id)
+    becomes!(Passed)
+    save
+  end
+
+  private
+
+  def tinder
+    @tinder_client ||= Tinder::Client.new(account.tinder_api_token)
+  end
 end

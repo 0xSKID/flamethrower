@@ -60,7 +60,7 @@ module Tinder
     end
 
     def user_agent
-      'Tinder/3.0.4 (iPhone; iOS 7.1; Scale/2.00)'
+      'Tinder/8.6.0 (iPhone; iOS 11.2.5; Scale/2.00)'
     end
   end
 end

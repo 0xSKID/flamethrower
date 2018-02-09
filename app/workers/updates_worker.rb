@@ -8,7 +8,7 @@ class UpdatesWorker
 
     update = Update.new(account: account)
     update.build_raw_data(data: update_data)
-    update.save!
+    update.save
     ProcessUpdatesWorker.perform_async(update.id)
   end
 

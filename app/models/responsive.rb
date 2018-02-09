@@ -1,5 +1,12 @@
 class Responsive < Person
-  def action
-    # send text message to myself informing me of a responsive person in the bucket
+
+  def lost!
+    becomes!(Lost)
+    save
+  end
+
+  def dated!
+    becomes!(Dated)
+    save
   end
 end
