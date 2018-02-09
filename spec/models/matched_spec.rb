@@ -1,6 +1,10 @@
 require 'rails_helper'
 RSpec.describe Matched do
 
+  before do
+    allow_any_instance_of(Tinder::Client).to receive(:message)
+  end
+
   let!(:account) do
     create(:account, tinder_id: '1')
   end
