@@ -13,13 +13,14 @@ RSpec.describe 'UpdatesWorker' do
       'matches' => {
         'person' => {},
         'messages' => []
-      }
+      },
+      'last_activity_date' => Time.now.utc.iso8601
     }
   end
 
   before do
     expect(Tinder::Client).to receive(:new).and_return(client)
-    expect(client).to receive(:updates).with(account.updates.last&.pluck(:created_at)&.iso8601).and_return(updates)
+    expect(client).to receive(:updates).and_return(updates)
   end
 
   describe 'perform' do

@@ -14,9 +14,7 @@ class ProcessUpdatesWorker
   private
 
   def process(match)
-    return if match_invalid(match)
-
-    person = Person.includes(:messages).find_by(tinder_id: match['person']['_id'])
+    person = find_person_by_raw_data(match)
     existing_message_ids = person.messages.map(&:tinder_id)
 
     match['messages'].each do |message|
@@ -29,11 +27,15 @@ class ProcessUpdatesWorker
     UpdatePersonTypeWorker.perform_async(person.id)
   end
 
-  def matches
-    update.raw_data.data['matches'] || []
+  def find_person_by_raw_data(match)
+    # annoyingly.. Tinder doesn't always have a person object attached to their match object
+    tinder_id, tinder_match_id = match['person']&.[]('_id'), match['_id']
+    person_by_tinder_id = Person.includes(:messages).find_by(tinder_id: tinder_id) if tinder_id
+    person_by_match_id = Person.includes(:messages).find_by(tinder_match_id: tinder_match_id) if tinder_match_id
+    person_by_tinder_id || person_by_match_id
   end
 
-  def match_invalid(match)
-    match['person'].nil?
+  def matches
+    update.raw_data.data['matches'] || []
   end
 end

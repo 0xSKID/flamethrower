@@ -6,15 +6,24 @@ class UpdatesWorker
   def perform(account_id)
     @account = Account.find(account_id)
 
-    update = Update.new(account: account)
-    update.build_raw_data(data: update_data)
+    update = Update.build_from(update_data)
+    update.account = account
     update.save
     ProcessUpdatesWorker.perform_async(update.id)
   end
 
+  private
+
   def update_data
-    last_activity_date = account.updates.last&.pluck(:created_at)&.iso8601
-    client = Tinder::Client.new(account.tinder_api_token)
+    client = Tinder::Client.new(tinder_api_token)
     client.updates(last_activity_date)
+  end
+
+  def tinder_api_token
+    account.tinder_api_token
+  end
+
+  def last_activity_date
+    account.updates.last&.last_activity_date&.iso8601
   end
 end

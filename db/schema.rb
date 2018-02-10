@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20180205002341) do
 
   create_table "updates", force: :cascade do |t|
     t.integer "account_id"
+    t.datetime "last_activity_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_updates_on_account_id"

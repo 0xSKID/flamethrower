@@ -7,7 +7,7 @@ module Tinder
     def get_auth_token(facebook_oauth_token, facebook_user_id)
       parse(connection.post('/auth', {
         facebook_token: facebook_oauth_token,
-        facebook_id: facebook_user_id }).body)['token']
+        facebook_id: facebook_user_id }).body)
     end
 
     def meta
