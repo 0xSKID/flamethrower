@@ -2,18 +2,18 @@ class Person < ApplicationRecord
   belongs_to :account
   has_one :raw_data, as: :owner
   has_many :messages do
-    def awaiting_reply
+    def awaiting_reply?
       last.is_a?(ReceivedMessage)
     end
   end
   has_many :updates
 
   def received_messages
-    ReceivedMessage.where(person: self)
+    messages.where(type: 'ReceivedMessage')
   end
 
   def sent_messages
-    SentMessage.where(person: self)
+    messages.where(type: 'SentMessage')
   end
 
   def send_message(message)

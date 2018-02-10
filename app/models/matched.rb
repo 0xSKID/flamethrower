@@ -9,28 +9,15 @@ class Matched < Person
   private
 
   def advanceable
-    opened? && awaiting_reply
+    opened? && awaiting_reply?
+  end
+
+  def awaiting_reply?
+    messages.awaiting_reply?
   end
 
   def opened?
     sent_messages.length == 1
-  end
-
-  def awaiting_reply
-    messages.awaiting_reply?
-    if last_received_creation_date && last_sent_creation_date
-      last_received_creation_date > last_sent_creation_date
-    else
-     false
-    end
-  end
-
-  def last_received_creation_date
-    received_messages.last&.created_at
-  end
-
-  def last_sent_creation_date
-    sent_messages.last&.created_at
   end
 
   def send_follow_up
