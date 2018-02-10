@@ -1,7 +1,11 @@
 class Person < ApplicationRecord
   belongs_to :account
   has_one :raw_data, as: :owner
-  has_many :messages
+  has_many :messages do
+    def awaiting_reply
+      last.is_a?(ReceivedMessage)
+    end
+  end
   has_many :updates
 
   def received_messages

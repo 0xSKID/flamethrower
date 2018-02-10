@@ -17,6 +17,7 @@ class Matched < Person
   end
 
   def awaiting_reply
+    messages.awaiting_reply?
     if last_received_creation_date && last_sent_creation_date
       last_received_creation_date > last_sent_creation_date
     else
