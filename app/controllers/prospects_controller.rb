@@ -1,7 +1,8 @@
 class ProspectsController < ApplicationController
 
   def index
-    @prospects = account.prospects
+    prospects = account.prospects
+    render(prospects)
   end
 
   private
