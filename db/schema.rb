@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20180205002341) do
 
   create_table "people", force: :cascade do |t|
     t.string "tinder_id"
+    t.string "tinder_match_id"
     t.string "name"
     t.string "photos"
     t.string "type"

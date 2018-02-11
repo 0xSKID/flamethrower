@@ -2,6 +2,7 @@ class CreatePerson < ActiveRecord::Migration[5.1]
   def change
     create_table :people do |t|
       t.string :tinder_id
+      t.string :tinder_match_id
       t.string :name
       t.string :photos
       t.string :type
