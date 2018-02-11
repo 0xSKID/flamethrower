@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :accounts, only: [] do
+  resources :accounts, only: :index do
     resources :prospects, only: :index
   end
 
