@@ -1,9 +1,5 @@
 class SwipeController < ApplicationController
 
-  def prospects
-    @prospects = account.prospects
-  end
-
   def like
     prospect = account.prospects.find(params[:id])
     prospect.like!
