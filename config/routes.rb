@@ -3,6 +3,6 @@ Rails.application.routes.draw do
     resources :prospects, only: :index
   end
 
-  post '/swipe/like' => 'swipe#like'
-  post '/swipe/pass' => 'swipe#pass'
+  get '/swipe/:account_id/like/:id' => 'swipe#like'
+  get '/swipe/:account_id/pass/:id' => 'swipe#pass'
 end
