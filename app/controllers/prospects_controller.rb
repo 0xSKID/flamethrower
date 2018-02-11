@@ -2,7 +2,7 @@ class ProspectsController < ApplicationController
 
   def index
     prospects = account.prospects
-    render(prospects)
+    render json: prospects
   end
 
   private
