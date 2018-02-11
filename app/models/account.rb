@@ -1,7 +1,7 @@
 class Account < ApplicationRecord
   has_many :prospects
   has_many :updates
-  has_one :raw_data
+  has_one :raw_data, as: :owner
 
   def self.build_from(raw_data)
     new.tap do |account|
