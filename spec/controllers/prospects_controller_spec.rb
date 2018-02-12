@@ -1,5 +1,10 @@
 require 'rails_helper'
 RSpec.describe ProspectsController do
+
+  before do
+    allow_any_instance_of(ProspectsController).to receive(:authenticate)
+  end
+
   describe 'GET /accounts/:account_id/prospects' do
     let!(:account) do
       Account.create

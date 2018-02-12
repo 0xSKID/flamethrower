@@ -1,5 +1,10 @@
 require 'rails_helper'
 RSpec.describe SwipeController do
+
+  before do
+    allow_any_instance_of(SwipeController).to receive(:authenticate)
+  end
+
   let!(:account) do
     Account.create
   end

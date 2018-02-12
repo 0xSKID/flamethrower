@@ -1,6 +1,10 @@
 require 'rails_helper'
 RSpec.describe AccountsController do
 
+  before do
+    allow_any_instance_of(AccountsController).to receive(:authenticate)
+  end
+
   let!(:account) do
     Account.create
   end
