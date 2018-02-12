@@ -1,4 +1,5 @@
 class Account < ApplicationRecord
+  has_many :people
   has_many :prospects
   has_many :updates
   has_one :raw_data, as: :owner
