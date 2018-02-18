@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :accounts, only: :index do
     resources :prospects, only: :index
+    resources :responsives, only: :index
   end
 
   get '/recommendations/kickoff' => 'recommendations#kickoff'
